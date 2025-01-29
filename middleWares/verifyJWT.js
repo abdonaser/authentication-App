@@ -6,6 +6,7 @@ const verifyJWT = (req, res, next) => {
 
   // Validate if the Authorization header exists and starts with 'Bearer '
   if (!authHeader?.startsWith('Bearer ')) {
+    console.log(authHeader);
     return res.status(401).json({
       status: 'error',
       message:

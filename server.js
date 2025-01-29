@@ -11,8 +11,12 @@ const app = express();
 
 const connectDB = require('./Config/dbConnect');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Middleware for enabling Cross-Origin Resource Sharing (CORS)
+
+//' Middleware for enabling Cross-Origin Resource Sharing (CORS)
+const cors = require('cors');
 const corsOptions = require('./Config/corsOptions');
+app.use(cors(corsOptions)); // Enable CORS with specified options to allow cross-origin requests
+
 const cookieParser = require('cookie-parser');
 const path = require('path');
 //#endregion
@@ -20,9 +24,6 @@ const path = require('path');
 //#region Middlewares
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname + '/Public')));
-
-// Enable CORS with specified options to allow cross-origin requests
-app.use(cors(corsOptions));
 
 // Parse cookies from incoming requests
 app.use(cookieParser());

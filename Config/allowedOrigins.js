@@ -2,6 +2,7 @@
 // These are the domains that are permitted to access the server's resources
 const allowedOrigins = [
   'http://localhost:3000', // Local development frontend URL
+  'http://localhost:5000',
   // Add more origins as needed, for example:
   // 'https://your-production-domain.com',
   // 'https://another-allowed-origin.com',

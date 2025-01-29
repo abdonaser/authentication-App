@@ -14,7 +14,7 @@ const register = async (req, res) => {
   if (!first_name || !last_name || !email || !password) {
     return res.status(400).json({
       status: 'error',
-      message: 'all fields are required',
+      errorMessage: 'all fields are required',
     });
   }
 
@@ -23,7 +23,7 @@ const register = async (req, res) => {
   if (userFound) {
     return res.status(400).json({
       status: 'error',
-      message: 'this email already exist',
+      errorMessage: 'this email already exist',
     });
   }
 
@@ -65,12 +65,13 @@ const register = async (req, res) => {
   res.json({
     status: 'success',
     data: {
+      message: 'Successful Registration',
       accessToken,
       email: newUser.email,
     },
   });
 };
-//#endregion
+//#endregiond
 
 //#region Login Controller
 const login = async (req, res) => {
@@ -80,7 +81,7 @@ const login = async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({
       status: 'error',
-      message: 'all fields are required',
+      errorMessage: 'all fields are required',
     });
   }
 
@@ -89,7 +90,7 @@ const login = async (req, res) => {
   if (!userFound)
     return res.status(400).json({
       status: 'error',
-      message: "this email doesn't exist please create new account ",
+      errorMessage: "this email doesn't exist please create new account ",
     });
 
   //' check password
@@ -98,7 +99,7 @@ const login = async (req, res) => {
   if (!passwordMatch)
     return res
       .status(400)
-      .json({ status: 'error', message: 'invalid email / password' });
+      .json({ status: 'error', errorMessage: 'invalid email / password' });
 
   //'handling the token (Access Token & Reresh Token)
   const accessToken = accessTokenGenerated(userFound);
@@ -114,6 +115,7 @@ const login = async (req, res) => {
   res.json({
     status: 'success',
     data: {
+      message: 'success LogIn',
       accessToken,
       email: userFound.email,
     },
@@ -130,7 +132,7 @@ const refresh = async (req, res) => {
   if (!cookies?.jwt) {
     return res.status(401).json({
       status: 'error',
-      message: 'Refresh token is missing. Unauthorized access.',
+      errorMessage: 'Refresh token is missing. Unauthorized access.',
     });
   }
 
@@ -146,7 +148,7 @@ const refresh = async (req, res) => {
       if (err) {
         return res.status(403).json({
           status: 'error',
-          message:
+          errorMessage:
             'Invalid or expired refresh token. Access forbidden.  PLease log in ',
         });
       }
@@ -159,7 +161,7 @@ const refresh = async (req, res) => {
         if (!foundUser) {
           return res.status(401).json({
             status: 'error',
-            message: 'User not found. Unauthorized access.',
+            errorMessage: 'User not found. Unauthorized access.',
           });
         }
 
@@ -177,7 +179,7 @@ const refresh = async (req, res) => {
         console.error('Error refreshing token:', error);
         return res.status(500).json({
           status: 'error',
-          message: 'An internal server error occurred.',
+          errorMessage: 'An internal server error occurred.',
         });
       }
     }
